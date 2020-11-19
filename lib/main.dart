@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
 void main() {
+  debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -8,6 +10,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // return Container(
+    //   decoration: BoxDecoration(color: Colors.white),
+    //   child: Center(
+    //     child: Text(
+    //       'Hello World',
+    //       textDirection: TextDirection.ltr,
+    //       style: TextStyle(
+    //         fontSize: 32,
+    //         color: Colors.black87,
+    //       ),
+    //     ),
+    //   ),
+    // );
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -23,15 +38,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -39,42 +45,125 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times: ${widget.title}',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        appBar: AppBar(
+          title: Text("here is  title"),
         ),
+        body: Center(
+          child: buildContainerV2(),
+        ));
+  }
+
+  Widget buildContainerV1(){
+    return Container(color: Colors.yellow);
+  }
+  Widget buildContainerV2(){
+    return Container(width: 100, height: 100, color: Colors.red)
+    ;
+  }
+  Widget buildContainer() {
+    var image = Container(
+      margin:  EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border.all(width: 4, color: Colors.red),
+        borderRadius: const BorderRadius.all(const Radius.circular(8)),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      child: Image.asset('images/pic1.jpg'),
+    );
+    var imageRow = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [image, image],
+    );
+    var imageColumn = [imageRow, imageRow];
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: Colors.yellow),
+        borderRadius: const BorderRadius.all(const Radius.circular(8)),
+      ),
+      child: Column(
+        children: imageColumn,
       ),
     );
   }
+
+  Column buildRowColumn() {
+    // Navigator.of(context).pushNamed("route")
+    var row1 = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.black),
+        Icon(Icons.star, color: Colors.black),
+      ],
+    );
+    var row2 = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.black),
+        Icon(Icons.star, color: Colors.black),
+      ],
+    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [row1, row2],
+    );
+  }
+
+  Row buildRowStar() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.green[500]),
+        Icon(Icons.star, color: Colors.black),
+        Icon(Icons.star, color: Colors.black),
+      ],
+    );
+  }
+
+  Column buildColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(
+          child: Image.asset('images/pic1.jpg'),
+          flex: 2,
+        ),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+        Expanded(child: Image.asset('images/pic1.jpg')),
+      ],
+    );
+  }
+
+  Row buildRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        // Image.asset(name)
+        Image.asset('images/pic1.jpg'),
+        Image.asset('images/pic1.jpg'),
+        Image.asset('images/pic1.jpg'),
+      ],
+    );
+  }
+
+  Text buildText() => Text('hello world');
 }
