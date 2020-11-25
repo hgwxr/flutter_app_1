@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
+import 'package:flutter/services.dart';
+import 'package:flutter_app_1/page/HomePage.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
-  runApp(MyApp());
+  debugPaintSizeEnabled = false;
+  runApp(HomePage());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -56,16 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-  Widget buildContainerV1(){
+  Widget buildContainerV1() {
     return Container(color: Colors.yellow);
   }
-  Widget buildContainerV2(){
-    return Container(width: 100, height: 100, color: Colors.red)
-    ;
+
+  Widget buildContainerV2() {
+    return Container(width: 100, height: 100, color: Colors.red);
   }
+
   Widget buildContainer() {
     var image = Container(
-      margin:  EdgeInsets.all(8),
+      margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
         border: Border.all(width: 4, color: Colors.red),
         borderRadius: const BorderRadius.all(const Radius.circular(8)),
