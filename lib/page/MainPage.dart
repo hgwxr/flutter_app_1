@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_1/constant/SelfIcon.dart';
+import 'package:flutter_app_1/page/TabPage.dart';
+import 'package:flutter_app_1/page/home/HomeTabPage.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key, this.selectIndex}) : super(key: key);
@@ -11,9 +14,18 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   MainPageState(this._selectIndex) : super();
-  int _selectIndex;
+  int _selectIndex = 0;
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController =
+        TabController( length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,52 +35,66 @@ class MainPageState extends State<MainPage> {
         toolbarHeight: 0,
         backgroundColor: Colors.white,
       ),
-      body: SafeArea(
-          child: Flex(
-        direction: Axis.vertical,
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              height: 30.0,
-              color: Colors.red,
-            ),
-          ),
-          buildBottomNavBar()
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          HomeTabPage(params: 123),
+          TabPage(params: 234),
         ],
-      )),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: CircularNotchedRectangle(), // 底部导航栏打一个圆形的洞
-        child: Container(
-          height: 70,
-          child: Row(
-            children: [
-              Column(
-                children: [
-                  IconButton(
-                    icon: Image.asset(
-                      'images/pic1.jpg',
-                      width: 24.0,
-                      height: 24.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Text("首页")
-                ],
-              ),
-              SizedBox(), //中间位置空出
-              IconButton(icon: Icon(Icons.business)),
-            ],
-            mainAxisAlignment: MainAxisAlignment.spaceAround, //均分底部导航栏横向空间
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectIndex,
+        items: [
+          BottomNavigationBarItem(icon: Icon(SelfIcon.job), label: "首页"),
+          BottomNavigationBarItem(icon: Icon(SelfIcon.mine), label: "我的"),
+        ],
+        onTap: (index) {
+          _tabController.animateTo(index);
+          setState(() {
+            _selectIndex = index;
+          });
+        },
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //     //悬浮按钮
+      //     child: Icon(Icons.add),
+      //     onPressed: () => {}),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Column buildTabItemColumn() {
+    return Column(
+      children: [
+        IconButton(
+          icon: Image.asset(
+            'images/pic1.jpg',
+            width: 24.0,
+            height: 24.0,
+            fit: BoxFit.cover,
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          //悬浮按钮
-          child: Icon(Icons.add),
-          onPressed: () => {}),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        Padding(
+          padding: EdgeInsets.only(top: 8.0),
+          child: Text("首页"),
+        )
+      ],
+    );
+  }
+
+  Flex buildFlex() {
+    return Flex(
+      direction: Axis.vertical,
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Container(
+            height: 30.0,
+            color: Colors.red,
+          ),
+        ),
+        buildBottomNavBar()
+      ],
     );
   }
 
